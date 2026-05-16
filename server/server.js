@@ -16,12 +16,12 @@ app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:5173', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    allowedHeaders: ['Content-Type']
+    allowedHeaders: ['Content-Type']  
 }))
 
 
 // routes 
-// book 
+// book   
 app.use('/books', bookRoute)  // create a book 
 app.use('/getbook', getRoute) // get book and by also by id 
 app.use('/deletebook', deleteRoute)  // delete book

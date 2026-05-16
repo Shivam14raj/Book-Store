@@ -1,47 +1,48 @@
-import express from 'express'
-import { Book } from '../models/bookModel.js'
+import express from "express";
+import { Book } from "../models/bookModel.js";
 
-export const getbooks = async (req, res) =>{
-     try {
-        const books = Book.find(); 
+export const getbooks = async (req, res) => {
+  try {
+    const books = await Book.find();
 
-        res.status(200).json({
-            success: true, 
-            message: "book found in Database", 
-            
-        })
+    res.status(200).json({
+      success: true,
+      message: "book found in Database",
+      count: (await books).length,
+      data: books,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Book not found in database",
+    });
+  }
+};
 
-     } catch (error) {
-        res.status(500).json({
-            success: false, 
-            message: "Book not found in database"
-        })
-     }
-}
+// finding book by id
+export const getbookbyID = async (req, res) => {
+  try {
+    const { id } = req.params
 
-// finding book by id 
-export const getbookbyID = async (req, res) =>{
-     try {
-       
-        const {id} = req.params
-        const book = Book.findById(id); 
+    const book = await Book.findById(id)
 
-        if(!book){
-            return res.status(500).json({
-                success: false,
-                message: "Book not found",
-            })
-        } 
+    if (!book) {
+      return res.status(404).json({
+        success: false,
+        message: "Book not found",
+      })
+    }
 
-        res.status(200).json({
-            success: true, 
-            message:" book found in database sucessfully"
-        })
+    return res.status(200).json({
+      success: true,
+      message: "Book found successfully",
+      data: book,
+    })
 
-     } catch (error) {
-        res.status(500).json({
-            success: false, 
-            message: "Book not found in database"
-        })
-     }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
 }
