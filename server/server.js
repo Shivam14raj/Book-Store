@@ -6,11 +6,19 @@ import bookRoute from './Routes/bookRoute.js'
 import getRoute from './Routes/getRoute.js'
 import deleteRoute from "./Routes/deleteRoute.js"
 import updateRouter from "./Routes/updateRoute.js"
+import cors from 'cors' 
 
-dotenv.config()
-const app = express()
-app.use(express.json())
- 
+dotenv.config(); 
+const app = express();  
+app.use(express.json()); 
+
+// app.use(cors()) // default value : * (allow from all the origin)
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type']
+}))
+
 
 // routes 
 // book 
